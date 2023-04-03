@@ -1,12 +1,7 @@
 //globals
 let sizeIncrement = 20;
-const clickableArea = document.querySelectorAll('.clickable');
-let pointer;
-// Wait for DOM to load and assign pointer
-document.addEventListener('DOMContentLoaded', function() {
-    pointer = document.getElementById('doc-pointer');
-});
-
+let pointer = document.getElementById('doc-pointer');
+let pointerbase = pointer.clientWidth;
 //function only at event
 //move pointer
 document.addEventListener('mousemove', function(e) {
@@ -15,38 +10,26 @@ document.addEventListener('mousemove', function(e) {
     pointer.style.left = pointerX + 'px';
     pointer.style.top = pointerY + 'px';
 });
-
 //increase size when click
 document.addEventListener('click',function(e){
-    let pointerX = 0;
-    let pointerY = 0;
-    pointerX = pointer.clientWidth + sizeIncrement;
-    pointerY = pointer.clientHeight + sizeIncrement;
+    let pointerX = pointerbase + sizeIncrement;
     pointer.style.width = pointerX + 'px';
-    pointer.style.height = pointerY + 'px';
+    pointer.style.height = pointerX + 'px';
     setTimeout(() => { 
-        pointerX = pointer.clientWidth  - sizeIncrement;
-        pointerY = pointer.clientHeight - sizeIncrement;
-        pointer.style.width = pointerX + 'px';
-        pointer.style.height = pointerY + 'px';
+        pointer.style.width = pointerbase + 'px';
+        pointer.style.height = pointerbase + 'px';
     }, 100);
 });
 
-function mouseEnter() {
-    pointer.style.border = '2px solid blue';
-    pointer.style.transform = 'scale(1.2)';
+function pointerHover() {
+    pointer.style.border = '2px dashed rgb(189, 189, 189)';
+    let pointerX = pointerbase + sizeIncrement;
+    pointer.style.width = pointerX + 'px';
+    pointer.style.height = pointerX + 'px';
 };
-
-function mouseLeave() {
+function pointerUnhover() {
     pointer.style.border = '2px solid aliceblue';
-    pointer.style.transform = 'scale(1)';
+    pointerX = pointerbase;
+    pointer.style.width = pointerX + 'px';
+    pointer.style.height = pointerX + 'px';
 };
-
-clickableArea.forEach(function(clickable) {
-    clickable.addEventListener('mouseenter',function() {
-        pointer.style.borderColor = 'blue';
-    });
-    clickable.addEventListener('mouseleave',function() {
-        pointer.style.borderColor = 'aliceblue';
-    });
-});
